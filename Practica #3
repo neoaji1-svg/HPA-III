@@ -17,62 +17,82 @@ namespace PRACTICA3
             InitializeComponent();
         }
 
+        // Método auxiliar para validar los campos antes de operarlos
+        private bool ValidarEntradas(out decimal n1, out decimal n2)
+        {
+            n1 = 0;
+            n2 = 0;
+
+            if (!decimal.TryParse(txtnum1.Text, out n1))
+            {
+                MessageBox.Show("Ingrese un número válido en el primer campo.",
+                                "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtnum1.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(txtnum2.Text, out n2))
+            {
+                MessageBox.Show("Ingrese un número válido en el segundo campo.",
+                                "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtnum2.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radioButton1.Checked) return;
+
             this.signo.Text = "+";
-            decimal n1 = Convert.ToDecimal(txtnum1.Text);
-            decimal n2 = Convert.ToDecimal(txtnum2.Text);
-            decimal sum;
-
-            sum = n1 + n2;
-
-            this.txtres.Text = sum.ToString();
+            if (ValidarEntradas(out decimal n1, out decimal n2))
+            {
+                this.txtres.Text = (n1 + n2).ToString();
+            }
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radioButton2.Checked) return;
+
             this.signo.Text = "-";
-            decimal n1 = Convert.ToDecimal(txtnum1.Text);
-            decimal n2 = Convert.ToDecimal(txtnum2.Text);
-            decimal res;
-
-            res = n1 - n2;
-
-            this.txtres.Text = res.ToString();
+            if (ValidarEntradas(out decimal n1, out decimal n2))
+            {
+                this.txtres.Text = (n1 - n2).ToString();
+            }
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radioButton3.Checked) return;
+
             this.signo.Text = "*";
-            decimal n1 = Convert.ToDecimal(txtnum1.Text);
-            decimal n2 = Convert.ToDecimal(txtnum2.Text);
-            decimal mult;
-
-            mult = n1 * n2;
-
-            this.txtres.Text = mult.ToString();
+            if (ValidarEntradas(out decimal n1, out decimal n2))
+            {
+                this.txtres.Text = (n1 * n2).ToString();
+            }
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radioButton4.Checked) return;
+
             this.signo.Text = "/";
-            decimal div;
-            decimal n1 = Convert.ToDecimal(txtnum1.Text);
-            decimal n2 = Convert.ToDecimal(txtnum2.Text);
-                if(n2 == 0){
-                    MessageBox.Show("No se permite el cero como divisor, cambiar numero",
-                        "Error texto",MessageBoxButtons.OK,MessageBoxIcon.Warning);
-                    
+            if (ValidarEntradas(out decimal n1, out decimal n2))
+            {
+                if (n2 == 0)
+                {
+                    MessageBox.Show("No se permite el cero como divisor. Por favor cambie el número.",
+                                    "División entre cero", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.txtres.Text = "";
+                    txtnum2.Focus();
                     return;
                 }
-                
-                
-       
-           
 
-            div = n1 / n2;
-
-            this.txtres.Text = div.ToString();
+                this.txtres.Text = (n1 / n2).ToString();
+            }
         }
     }
 }
