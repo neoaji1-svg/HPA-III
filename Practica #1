@@ -59,11 +59,48 @@ namespace Pract1_Controles
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string tex1 = textBox2.Text;
-            string tex2 = textBox3.Text;
-            string tex3 = textBox4.Text;
+            string tex1 = textBox2.Text.Trim(); // Día
+            string tex2 = textBox3.Text.Trim(); // Mes
+            string tex3 = textBox4.Text.Trim(); // Año
+
+            // Listas para comparar los valores ingresados
+            string[] diasValidos = { "lunes", "martes", "miércoles", "miercoles", "jueves", "viernes", "sábado", "sabado", "domingo" };
+            string[] mesesValidos = { "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre" };
+
+            // 1. Validar que ningún campo esté vacío
+            if (string.IsNullOrWhiteSpace(tex1) || string.IsNullOrWhiteSpace(tex2) || string.IsNullOrWhiteSpace(tex3))
+            {
+                MessageBox.Show("Por favor, complete todos los campos.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Validar que el Día sea un día de la semana
+            if (!diasValidos.Contains(tex1.ToLower()))
+            {
+                MessageBox.Show("El día debe ser un día de la semana válido (ej. Lunes, Martes...).", "Día incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox2.Focus();
+                return;
+            }
+
+            // 3. Validar que el Mes sea un mes válido
+            if (!mesesValidos.Contains(tex2.ToLower()))
+            {
+                MessageBox.Show("El mes debe ser un mes válido (ej. Enero, Abril...).", "Mes incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox3.Focus();
+                return;
+            }
+
+            // 4. Validar que el Año sean 4 dígitos numéricos
+            if (!int.TryParse(tex3, out int anio) || tex3.Length != 4)
+            {
+                MessageBox.Show("El año debe ser un número entero de 4 dígitos (ej. 2012, 2021).", "Año incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox4.Focus();
+                return;
+            }
+
+            // Si pasa las validaciones, construye el mensaje
             string mens = tex1 + " de " + tex2 + " del " + tex3;
-            this.textBox1.Text = mens.ToString();
+            this.textBox1.Text = mens;
         }
 
         private void button2_Click(object sender, EventArgs e)
