@@ -1,16 +1,4 @@
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Descuento
-{
+using Microsoft.Win32;using System;using System.Collections.Generic;using System.ComponentModel;using System.Data;using System.Drawing;using System.Linq;using System.Text;using System.Threading.Tasks;using System.Windows.Forms;namespace Descuento{
     public partial class Form1 : Form
     {
         public Form1()
@@ -30,7 +18,24 @@ namespace Descuento
 
         private void button1_Click(object sender, EventArgs e)
         {
-            decimal valorventa = Convert.ToInt32(textventa.Text);
+            // 1. Validar que la caja no esté vacía o tenga letras
+            if (!decimal.TryParse(textventa.Text, out decimal valorventa))
+            {
+                MessageBox.Show("Por favor, ingrese un monto numérico válido.", 
+                                "Entrada incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textventa.Focus();
+                return;
+            }
+
+            // 2. Validar que la venta sea mayor a cero
+            if (valorventa <= 0)
+            {
+                MessageBox.Show("El valor de la venta debe ser mayor a 0.", 
+                                "Monto inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textventa.Focus();
+                return;
+            }
+
             decimal descuentoporcentaje;
             decimal descuentoventa;
             decimal valorfinal;
@@ -52,9 +57,9 @@ namespace Descuento
             descuentoventa = valorventa * descuentoporcentaje;
             valorfinal = valorventa - descuentoventa;
 
-            txtfinal.Text = valorfinal.ToString();
-            textdes.Text = descuentoventa.ToString();   
-            textdess.Text = descuentoporcentaje.ToString();
+            txtfinal.Text = valorfinal.ToString("N2");
+            textdes.Text = descuentoventa.ToString("N2");   
+            textdess.Text = (descuentoporcentaje * 100).ToString("0") + "%";
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -63,6 +68,7 @@ namespace Descuento
             textdes.Text = "";
             textdess.Text = "";
             txtfinal.Text = "";
+            textventa.Focus();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -70,5 +76,4 @@ namespace Descuento
             MessageBox.Show("A continuacion se cerrara la apliacion");
             this.Close();
         }
-    }
-}
+    }}
