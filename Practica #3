@@ -58,13 +58,16 @@ namespace PRACTICA3
             this.signo.Text = "/";
             decimal div;
             decimal n1 = Convert.ToDecimal(txtnum1.Text);
-            decimal n2;
-            do
-            {
-                n2 = Convert.ToDecimal(txtnum2.Text);
+            decimal n2 = Convert.ToDecimal(txtnum2.Text);
+                if(n2 == 0){
+                    MessageBox.Show("No se permite el cero como divisor, cambiar numero",
+                        "Error texto",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    
+                    return;
+                }
                 
                 
-            } while (n2 == 0);
+       
            
 
             div = n1 / n2;
@@ -73,3 +76,4 @@ namespace PRACTICA3
         }
     }
 }
+
